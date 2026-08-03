@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2026-08-03
+
+Bugfixes applied.
+
+### Fixed
+
+- Fixed register reads returning stale OR'ed data when a buffer slot is reused.
+- Fixed byte-to-word assembly casting so 4-byte register reads work on boards with
+  16-bit int (Uno, Mega).
+
 ## [1.0.0] - 2026-07-16
 
 First public release.
@@ -25,3 +35,5 @@ First public release.
   `write_read_register`, and `write_register_param_outside_range`.
 - Integration documentation for Arduino and non-Arduino (e.g. STM32 HAL)
   targets.
+
+

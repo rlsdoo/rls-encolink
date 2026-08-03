@@ -404,6 +404,7 @@ uint8_t Encolink::read_register_command(uint16_t num_of_bytes, uint32_t address)
             reg_access_buffer[temp_index].address = address;
             reg_access_buffer[temp_index].read_write_command = READ_CMD;
             reg_access_buffer[temp_index].num_of_bytes = num_of_bytes;
+            reg_access_buffer[temp_index].data = 0;
             reg_access_buffer[temp_index].reg_access_status = READ_PENDING;
 
             status = temp_index;
@@ -753,19 +754,19 @@ void Encolink::comm_channel_2_fsm(void)
 
             if (4 == num_of_read_bytes)
             {
-                reg_access_buffer[queue_get_index].data |= (uint32_t)(read_data_arr[0] << 24);
-                reg_access_buffer[queue_get_index].data |= (uint32_t)(read_data_arr[1] << 16);
-                reg_access_buffer[queue_get_index].data |= (uint32_t)(read_data_arr[2] << 8);
-                reg_access_buffer[queue_get_index].data |= (uint32_t)(read_data_arr[3] << 0);
+                reg_access_buffer[queue_get_index].data |= ((uint32_t)read_data_arr[0] << 24);
+                reg_access_buffer[queue_get_index].data |= ((uint32_t)read_data_arr[1] << 16);
+                reg_access_buffer[queue_get_index].data |= ((uint32_t)read_data_arr[2] << 8);
+                reg_access_buffer[queue_get_index].data |= ((uint32_t)read_data_arr[3] << 0);
             }
             else if (2 == num_of_read_bytes)
             {
-                reg_access_buffer[queue_get_index].data |= (uint32_t)(read_data_arr[0] << 8);
-                reg_access_buffer[queue_get_index].data |= (uint32_t)(read_data_arr[1] << 0);
+                reg_access_buffer[queue_get_index].data |= ((uint32_t)read_data_arr[0] << 8);
+                reg_access_buffer[queue_get_index].data |= ((uint32_t)read_data_arr[1] << 0);
             }
             else if (1 == num_of_read_bytes)
             {
-                reg_access_buffer[queue_get_index].data |= (uint32_t)(read_data_arr[0] << 0);
+                reg_access_buffer[queue_get_index].data |= ((uint32_t)read_data_arr[0] << 0);
             }
 
             reg_access_buffer[queue_get_index].reg_access_status = READ_DATA_READY;
