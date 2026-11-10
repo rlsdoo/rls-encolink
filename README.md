@@ -23,7 +23,14 @@ Arduino-specific setup, wiring, and example workflows are documented in [example
 
 1. Add `inc` folder as project include
 2. Implement the transport callback (`Read_write_fun`) used by `Encolink`. Note that function must return 0 upon success and positive non-zero value upon failure. 
-3. Select the product and protocol version as preprocessor define symbols (`-D` flag) or by editing the defaults in the config headers (`protocol_config.h` and `product_config.h`). When nothing is defined, AksIM-4 with protocol 4 is used.
+3. Select the product and protocol version as preprocessor define symbols (`-D` flag) or by editing the defaults in the config headers (`protocol_config.h` and `product_config.h`). When nothing is defined, AksIM-4 with protocol 4 is used. Product and protocol must match:
+
+   | Encoder | Product define | Protocol define |
+   |---------|----------------|-----------------|
+   | AksIM-4 | `ENCO_PRODUCT_AKSIM4` | `ENCO_PROTOCOL_4` |
+   | AksIM-2 | `ENCO_PRODUCT_AKSIM2` | `ENCO_PROTOCOL_1` |
+
+   The product define selects the register map; the protocol define must match the version the encoder reports, otherwise `initialize()` fails. Using the protocol of one product with the register map of the other passes `initialize()` but makes register access fail (e.g. `eERROR_INSUFFICIENT_NUM_OF_BYTES` or `eERROR_DATABASE_INVALID_PARAM_ID`).
 4. Create an `Encolink` instance with your callback.
 5. Run `initialize()` and then `reset_encoder()` before regular operation.
 6. Call `read_encoder()` cyclically.
